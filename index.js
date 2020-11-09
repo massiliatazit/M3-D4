@@ -1,6 +1,85 @@
+
+let books_data=[];
+
+
+let input = document.getElementById("myInput");
+ input.addEventListener('keyup', (event) => {
+ 
+  let searching_element=event.target.value.toLowerCase();
+
+    const filteredbooks = books_data.filter(searchbook =>{
+      return searchbook.title.toLowerCase().includes(searching_element)
+    }
+       
+    )
+    console.log(filteredbooks)
+    BookCard(filteredbooks);
+   
+
+        
+      
+      });
+      
+  const addtocart =()=>{
+    const Addtocards = document.querySelectorAll(".Addtocard");
+  
+    const booksList = document.querySelectorAll(".bookcard");
+    for(let i=0;i<booksList.length;i++){
+
+     Addtocards[i].onclick=() =>{
+       
+      booksList[i].setAttribute(
+        "style",
+        "color:#f25c54; border: 2px solid #f25c54;")
+
+     }
+     
+    }
+    alert('Item added to the list')
+    
+    
+     
+  }
+  addtocart()
+ 
+
+ const skipfun=()=>{
+
+  const cols = document.querySelectorAll(".col");
+  const skipbtn = document.querySelectorAll('.skip')
+   ;
+  for (let i = 0; i < cols.length; i++) {
+    
+
+    skipbtn[i].onclick = () => {
+      // if (!Addtocards.dataset.clicked) {
+      cols[i].remove();
+      // }
+    };
+  }
+ }
+
+
+const loadbooks = async () => {
+  try{
+    const loaddata = await fetch(`https://striveschool-api.herokuapp.com/books`)
+    books_data = await loaddata.json()
+    
+    BookCard(books_data)
+    return books_data;
+  }
+    
+    catch(err){
+      (console.log(err));
+    }
+ 
+   
+    
+    
+};
 const BookCard = (books) => {
   const row = document.querySelector(".row");
-
+  row.innerHTML=''
   const htmlString = books.map(book =>{
     
     return `<div class ="col col-sm-12 col-md-4 col-lg-3 mt-2 d-flex align-items-stretch">
@@ -45,84 +124,12 @@ const BookCard = (books) => {
  
 
 }
-let books_data=[];
-const searchbutton = document.getElementById('searchbtn')
-
-let input = document.getElementById("myInput");
- input.addEventListener('keyup', (event) => {
- 
-  let searching_element=event.target.value;
-
-    const filteredbooks = books_data.filter(searchbook =>
-       searchbook.title.includes(searching_element)
-    )
-    console.log(filteredbooks)
-    BookCard(filteredbooks);
-   
-
+loadbooks();
         
-      
-      })
-      
-  const addtocart =()=>{
-    const Addtocards = document.querySelectorAll(".Addtocard");
+
+// window.onload = () => {
   
-    const booksList = document.querySelectorAll(".bookcard");
-    for(let i=0;i<booksList.length;i++){
-
-     Addtocards[i].onclick=() =>{
-       
-      booksList[i].setAttribute(
-        "style",
-        "color:#f25c54; border: 2px solid #f25c54;")
-
-     }
-    }
-    
-    
-     
-  }
-  addtocart()
- 
-
- const skipfun=()=>{
-
-  const cols = document.querySelectorAll(".col");
-  const skipbtn = document.querySelectorAll('.skip')
-   ;
-  for (let i = 0; i < cols.length; i++) {
-    
-
-    skipbtn[i].onclick = () => {
-      // if (!Addtocards.dataset.clicked) {
-      cols[i].remove();
-      // }
-    };
-  }
- }
-
-
-const loadbooks = async () => {
-  try{
-    const loaddata = await fetch(`https://striveschool-api.herokuapp.com/books`)
-    books_data = await loaddata.json()
-    BookCard(books_data)
-  }
-    
-    catch(err){
-      (console.log(err));
-    }
- 
-   
-    
-    
-};
-
-        
-
-window.onload = () => {
-  loadbooks();
-};
+// };
 
 
 
